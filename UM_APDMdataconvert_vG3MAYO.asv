@@ -46,33 +46,27 @@ if sensortype == 2
         sensor_info = h5info(filename,[sensor_data_loc1,'/Configuration']);
         sensor_label = sensor_info.Attributes(1).Value;
         
-        if strcmpi(sensor_label,'Left Foot')
-            sensor_label = 'LFoot';
-        elseif strcmpi(sensor_label,'Right Foot')
-            sensor_label = 'RFoot';
-        elseif strcmpi(sensor_label,'Left Wrist')
-            sensor_label = 'LWrist';
-        elseif strcmpi(sensor_label,'Right Wrist')
-            sensor_label = 'RWrist';
-        elseif strcmpi(sensor_label,'Lumbar')
-            sensor_label = 'Lumbar';
-        elseif strcmpi(sensor_label,'Sternum')
-            sensor_label = 'Sternum';
+        if strcmpi(sensor_label,'Right Arm')
+            sensor_label = 'RArm';
+        elseif strcmpi(sensor_label,'Left Arm')
+            sensor_label = 'LArm';
+        elseif strcmpi(sensor_label,'Chest')
+            sensor_label = 'torso';
         end
 
         sensor_names(ii) = {sensor_label};
 
         % Get sensor data
-        IMU.(sensor_label).accel = h5read(filename,[sensor_data_loc1,'/Accelerometer'])';
-        IMU.(sensor_label).gyro = h5read(filename,[sensor_data_loc1,'/Gyroscope'])';
-        IMU.(sensor_label).magnet = h5read(filename,[sensor_data_loc1,'/Magnetometer'])';
-        IMU.(sensor_label).orien = h5read(filename,[sensor_data_loc2,'/Orientation'])';
-        IMU.(sensor_label).baro = h5read(filename,[sensor_data_loc1,'/Barometer']);
+        IMU.(sensor_label).a = h5read(filename,[sensor_data_loc1,'/Accelerometer'])';
+        IMU.(sensor_label).w = h5read(filename,[sensor_data_loc1,'/Gyroscope'])';
+        IMU.(sensor_label).m = h5read(filename,[sensor_data_loc1,'/Magnetometer'])';
+        IMU.(sensor_label).q = h5read(filename,[sensor_data_loc2,'/Orientation'])';
+        IMU.(sensor_label).b = h5read(filename,[sensor_data_loc1,'/Barometer']);
         IMU.(sensor_label).temp = h5read(filename,[sensor_data_loc1,'/Temperature']);
         IMU.(sensor_label).time = h5read(filename,[sensor_data_loc1,'/Time']);
 
 %         % Record time vector length for each sensor
-    vectorlengths(ii) = length(IMU.(sensor_label).time);
+%         vectorlengths(ii) = length(IMU.(sensor_label).time);
     end
 
     % Identify if there are different start and end times -- if so trim
@@ -229,8 +223,8 @@ if sensortype == 2
 % For V1 Opal sensor %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 elseif sensortype == 1
     % Read sensor data
-    caseIdList = h5read(filename,'/','CaseIdList');
-    monitorList = h5read(filename,'/','MonitorLabelList');
+    caseIdList = hdf5read(filename,'/','CaseIdList');
+    monitorList = hdf5read(filename,'/','MonitorLabelList');
 
     vectorlengths = zeros(length(caseIdList),1);
 
@@ -266,7 +260,7 @@ elseif sensortype == 1
         end
 
         % Record time vector length for each sensor
-        % vectorlengths(jj) = length(time.(sensorName));
+        vectorlengths(jj) = length(time.(sensorName));
     end
 
     % Identify if there are different numbers of data points, make sure all
