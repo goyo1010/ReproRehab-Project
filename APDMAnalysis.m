@@ -1,13 +1,15 @@
-prompt = "What is the trial number of this file?";
-trial = input(prompt);
+trial = input("What is the trial number of this file?");
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% This line calls the local function APDMdataconvert.m which asks the user
+% This line calls the function APDMdataconvert.m which asks the user
 % choose the .h5 file to convert into a .m file and stores the IMU sensor
 % data in a structure variable called "IMU".
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 APDMdataconvert
+
+file = uigetfile('*.mat','Select a MATLAB .mat file');
+load(file);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % These next lines of code will run the descriptive statistics for the
@@ -37,7 +39,7 @@ descriptives_table = table(ymean, ystd, ymin, ymax, yCV);
 % descriptives_table(:,:);
 
 % Create and write MATLAB table to an Excel file (.xlsx)
-filename = 'Trial Descriptives.xlsx';
+filename = 'Trial Descriptive Data.xlsx';
 writetable(descriptives_table, filename, 'Sheet', trial, 'Range', 'A1');
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -49,4 +51,7 @@ writetable(descriptives_table, filename, 'Sheet', trial, 'Range', 'A1');
 % radius of r = 0.2. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% function [e,A,B]
+y = IMU.Lumbar.accel(:,2);
+M = 2;
+r = 0.2;
+[e,A,B] = sampenc(y,M,r);
