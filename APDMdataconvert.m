@@ -1,4 +1,4 @@
- function APDMdataconvert
+function APDMdataconvert
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This function is used to convert a .h5 file from APDM Opal sensors
 % into a .mat file.
