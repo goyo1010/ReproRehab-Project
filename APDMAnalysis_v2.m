@@ -1,3 +1,4 @@
+% This user input prompts the user for the trial number of the file.
 trial = input("What is the trial number of this file?");
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -8,42 +9,51 @@ trial = input("What is the trial number of this file?");
 
 APDMdataconvert
 
+% Ask the user for the MATLAB file to be loaded and calculations to be run.
 file = uigetfile('*.mat','Select a MATLAB .mat file');
 load(file);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % These next lines of code will run the descriptive statistics for the
-% lumbar sensors y-vector linear accelerations and store them as variables.
+% lumbar sensors y-vector linear accelerations and store them as variables
+% from the file loaded in the previous section.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% calculate the mean of the data
 ymean = mean(IMU.Lumbar.accel(:,2));
+
+% calculate the standard deviation of the data
 ystd = std(IMU.Lumbar.accel(:,2));
+
+% calculate the minimum and maximum value of the data
 ymin = min(IMU.Lumbar.accel(:,2));
 ymax = max(IMU.Lumbar.accel(:,2));
 
-% The following line of code calculates the linear coefficient of variation 
-% of the sensor data for the y-vector.
+% calculate the linear coefficient of variation of the sensor data for the 
+% y-vector.
 
 yCV = ystd/ymean;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % These next lines of code will run the sample entropy calculations based
 % on the code developed by Hurd WJ, Morrow MM, & Kaufman KR (2013), which
-% was developed on parameters proposed by Richman JS & Moorman JR (2000) and
-% Pincus SM & Goldberger AL (1994).
+% was based on the calculations and parameters proposed by Richman JS & 
+% Moorman JR (2000) and Pincus SM & Goldberger AL (1994).
+%
 % The physiologic time series uses a vector length of m = 2 and tolerance
-% radius of R = 0.2, which is then multipled by the data's SD to produce r. 
+% radius of R = 0.2 (proposed by Pincus & Golderberger to lie between 0.10
+% and 0.20), which is then multipled by the data's SD to produce r. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 data = IMU.Lumbar.accel(:,2);
 m = 2;
 R = 0.2;
-sample_entropy = Ent_Samp(data,m,R)
+sample_entropy = Ent_Samp(data,m,R);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% These next lines of code create an Excel table that exports these
-% descriptive data from MATLAB into a new sheet based on the trial promt
-% input from the user.
+% These next lines of code create an Excel table that export these
+% descriptive data from MATLAB into a new Excel sheet based on the trial 
+% prompt input from the user.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Create MATLAB table
