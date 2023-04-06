@@ -1,5 +1,5 @@
 # ReproRehab-Project
-This repository contains files pertaining to the ReproRehab project for Gregory Brusola and Michael Furtado at UTMB. In this folder the following files and folders are described.
+This repository contains files pertaining to the ReproRehab project for Gregory Brusola and Michael Furtado at UTMB. In this folder the following files and folders are described. The purpose of this project was to convert data from the APDM Opal IMU sensors .h5 file into a MATLAB readable .m file that then runs calculations on linear acceleration data from the y-axis of the lumbar and left and right wrist IMU sensors. Descriptive statistics and sample entropy calculations follow.
 
 ## FILES
 - APDMAnalysis.m - The general MATLAB script that runs calculations on linear acceleration data gathered from the APDM Opal IMU sensors. It uses the functions APDMdataconvert.m and sampenc.m.
